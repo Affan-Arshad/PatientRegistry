@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\AddressController;
+use App\Http\Controllers\API\IslandController;
+use App\Http\Controllers\API\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('/addresses', AddressController::class);
+Route::resource('/patients', PatientController::class);
+Route::resource('/islands', IslandController::class);
+
+Route::any('/{any}', function() {
+    return abort(404);
+})->where('any', '.*');

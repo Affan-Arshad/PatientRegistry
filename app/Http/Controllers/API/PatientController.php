@@ -7,7 +7,7 @@ use App\Models\Address;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
-class PatientApiController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.

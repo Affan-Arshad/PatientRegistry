@@ -18,13 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::resource('/api/addresses', AddressApiController::class);
-Route::resource('/api/patients', PatientApiController::class);
-Route::resource('/api/islands', IslandApiController::class);
-
-Route::resource('/addresses', AddressController::class);
-Route::resource('/patients', PatientController::class);
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
