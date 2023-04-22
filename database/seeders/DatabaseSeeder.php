@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Nellaidhoo']);
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Nolhivaram']);
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Kurinbi']);
-        Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Kulhudhuffushi City']);
+        Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Kulhudhuffushi']);
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Kumundhoo']);
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Neykurendhoo']);
         Island::create(['atoll' => Atoll::HAA_DHAALU, 'name' => 'Vaikaradhoo']);
@@ -227,7 +227,7 @@ class DatabaseSeeder extends Seeder
         Island::create(['atoll' => Atoll::GAAFU_DHAALU, 'name' => 'Vaadhoo']);
 
         Island::create(['atoll' => Atoll::GNAVIVANI, 'name' => 'Fuvahmulah']);
-        
+
         Island::create(['atoll' => Atoll::SEENU, 'name' => 'Hithadhoo']);
         Island::create(['atoll' => Atoll::SEENU, 'name' => 'Maradhoo']);
         Island::create(['atoll' => Atoll::SEENU, 'name' => 'Maradhoo-Feydhoo']);

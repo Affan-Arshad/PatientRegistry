@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->date('dob');
-            $table->string('national_id');
+            $table->string('national_id')->unique();
 
             $table->foreignId('address_id')->constrained('addresses');
             

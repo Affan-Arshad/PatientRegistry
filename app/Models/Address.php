@@ -11,7 +11,7 @@ class Address extends Model
 {
     use HasFactory;
     
-    protected $guarded = [];
+    protected $fillable = ['street_address', 'postal_code', 'island_id'];
 
     public function island(): BelongsTo {
         return $this->belongsTo(Island::class);
