@@ -5,6 +5,19 @@ import { ref, onMounted } from 'vue'
 const patients = ref(null)
 const error = ref(null)
 
+const deletePatient = (id) => {
+    const confirmed = confirm("Are you sure you want to delete this patient?")
+    if (!confirmed) return
+    axios.delete(`${API_BASE_URL}/patients/${id}`)
+        .then(response => {
+            if (response.status !== 200) throw Error(response.status)
+            patients.value = patients.value.filter(patient => patient.id !== id)
+        })
+        .catch(err => {
+            error.value = err.message
+        })
+}
+
 onMounted(() => {
     axios.get(`${API_BASE_URL}/patients`)
         .then(response => {
@@ -55,7 +68,8 @@ onMounted(() => {
                     <td>{{ patient.national_id }}</td>
                     <td>
                         {{ patient.address.street_address }}<br />
-                        {{ patient.address.postal_code }} / {{ patient.address.island.atoll }} {{ patient.address.island.name }}
+                        {{ patient.address.postal_code }} / {{ patient.address.island.atoll }} {{
+                            patient.address.island.name }}
                     </td>
                     <td width="1">
                         <div class="btn-group me-2">
@@ -63,7 +77,8 @@ onMounted(() => {
                                 class="btn btn-sm btn-outline-secondary">View</button>
                             <button @click="$router.push({ name: 'PatientEdit', params: { id: patient.id } })"
                                 class="btn btn-sm btn-outline-secondary">Edit</button>
-                            <button class="btn btn-sm btn-outline-secondary">Delete</button>
+                            <button @click="deletePatient(patient.id)"
+                                class="btn btn-sm btn-outline-secondary">Delete</button>
                         </div>
                     </td>
                 </tr>

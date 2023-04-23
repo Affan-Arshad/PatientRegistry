@@ -1,6 +1,9 @@
 <script setup>
 import { ref, toRefs, onMounted } from 'vue'
 import { API_BASE_URL } from '@/config';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
     id: String
@@ -10,6 +13,19 @@ const { id } = toRefs(props)
 
 const patient = ref(null)
 const error = ref(null)
+
+const deletePatient = () => {
+    const confirmed = confirm("Are you sure you want to delete this patient?")
+    if (!confirmed) return
+    axios.delete(`${API_BASE_URL}/patients/${id.value}`)
+        .then(response => {
+            if (response.status !== 200) throw Error(response.status)
+            router.push({name: 'Patients'})
+        })
+        .catch(err => {
+            error.value = err.message
+        })
+}
 
 onMounted(() => {
     axios.get(`${API_BASE_URL}/patients/${id.value}`)
@@ -32,8 +48,9 @@ onMounted(() => {
             <h1 v-else class="h2">...</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div v-if="patient" class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    <button @click="$router.push({ name: 'PatientEdit', params: { id: patient.id } })"
+                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <button @click="deletePatient()" class="btn btn-sm btn-outline-secondary">Delete</button>
                 </div>
                 <button v-else type="button" class="btn btn-sm btn-outline-secondary">...</button>
             </div>

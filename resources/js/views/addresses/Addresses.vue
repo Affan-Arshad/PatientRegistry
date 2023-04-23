@@ -5,6 +5,19 @@ import { API_BASE_URL } from '@/config'
 const addresses = ref(null)
 const error = ref(null)
 
+const deleteAddress = (id) => {
+    const confirmed = confirm("Are you sure you want to delete this address?")
+    if (!confirmed) return
+    axios.delete(`${API_BASE_URL}/addresses/${id}`)
+        .then(response => {
+            if (response.status !== 200) throw Error(response.status)
+            addresses.value = addresses.value.filter(address => address.id !== id)
+        })
+        .catch(err => {
+            error.value = err.message
+        })
+}
+
 onMounted(() => {
     axios.get(`${API_BASE_URL}/addresses`)
         .then(response => {
@@ -59,7 +72,8 @@ onMounted(() => {
                                 class="btn btn-sm btn-outline-secondary">View</button>
                             <button @click="$router.push({ name: 'AddressEdit', params: { id: address.id } })"
                                 class="btn btn-sm btn-outline-secondary">Edit</button>
-                            <button class="btn btn-sm btn-outline-secondary">Delete</button>
+                            <button @click="deleteAddress(address.id)"
+                                class="btn btn-sm btn-outline-secondary">Delete</button>
                         </div>
                     </td>
                 </tr>

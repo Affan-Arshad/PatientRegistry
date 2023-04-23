@@ -1,6 +1,9 @@
 <script setup>
 import { ref, toRefs, onMounted } from 'vue'
 import { API_BASE_URL } from '@/config';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
     id: String
@@ -10,6 +13,19 @@ const { id } = toRefs(props)
 
 const address = ref(null)
 const error = ref(null)
+
+const deleteAddress = () => {
+    const confirmed = confirm("Are you sure you want to delete this address?")
+    if (!confirmed) return
+    axios.delete(`${API_BASE_URL}/addresses/${id.value}`)
+        .then(response => {
+            if (response.status !== 200) throw Error(response.status)
+            router.push({name: 'Addresses'})
+        })
+        .catch(err => {
+            error.value = err.message
+        })
+}
 
 onMounted(() => {
     axios.get(`${API_BASE_URL}/addresses/${id.value}`)
@@ -34,7 +50,7 @@ onMounted(() => {
                 <div v-if="address" class="btn-group me-2">
                     <button @click="$router.push({ name: 'AddressEdit', params: { id: address.id } })" type="button"
                         class="btn btn-sm btn-outline-secondary">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    <button @click="deleteAddress()" class="btn btn-sm btn-outline-secondary">Delete</button>
                 </div>
                 <button v-else type="button" class="btn btn-sm btn-outline-secondary">...</button>
             </div>
