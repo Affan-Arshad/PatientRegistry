@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from '../views/Home.vue';
 import Patients from '../views/patients/Patients.vue';
 import PatientDetails from '../views/patients/PatientDetails.vue';
 import PatientCreate from '../views/patients/PatientCreate.vue';
@@ -14,8 +13,7 @@ import Islands from '../views/Islands.vue';
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: Home
+        redirect: { name: 'Patients' },
     },
     {
         path: '/patients',
