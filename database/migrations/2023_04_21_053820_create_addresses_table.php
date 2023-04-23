@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('street_address');
             $table->string('postal_code');
-            
+
             $table->foreignId('island_id')->constrained('islands');
-            
+
+            $table->unique(['street_address', 'postal_code', 'island_id']);
+
             $table->timestamps();
         });
     }

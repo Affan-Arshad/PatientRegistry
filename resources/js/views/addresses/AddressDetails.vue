@@ -32,7 +32,8 @@ onMounted(() => {
             <h1 v-else class="h2">...</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div v-if="address" class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <button @click="$router.push({ name: 'AddressEdit', params: { id: address.id } })" type="button"
+                        class="btn btn-sm btn-outline-secondary">Edit</button>
                     <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
                 </div>
                 <button v-else type="button" class="btn btn-sm btn-outline-secondary">...</button>

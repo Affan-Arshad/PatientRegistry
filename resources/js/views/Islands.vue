@@ -2,7 +2,7 @@
 import { API_BASE_URL } from '@/config.js'
 import { ref, onMounted } from 'vue'
 
-const islands = ref([])
+const islands = ref(null)
 const error = ref(null)
 
 onMounted(() => {
@@ -34,9 +34,9 @@ onMounted(() => {
             {{ error }}
         </div>
 
-        <p v-if="!islands.length && !error">Loading...</p>
+        <p v-if="!islands && !error">Loading...</p>
 
-        <table v-if="islands.length" class="table table-hover table-sm">
+        <table v-if="islands?.length" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -52,5 +52,7 @@ onMounted(() => {
                 </tr>
             </tbody>
         </table>
+        
+        <div v-if="islands?.length === 0">No islands in the DB</div>
     </div>
 </template>

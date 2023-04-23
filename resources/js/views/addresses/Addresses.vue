@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { API_BASE_URL } from '@/config'
 
-const addresses = ref([])
+const addresses = ref(null)
 const error = ref(null)
 
 onMounted(() => {
@@ -35,15 +35,16 @@ onMounted(() => {
             {{ error }}
         </div>
 
-        <p v-if="!addresses.length && !error">Loading...</p>
+        <p v-if="!addresses && !error">Loading...</p>
 
-        <table v-if="addresses.length" class="table table-hover table-sm">
+        <table v-if="addresses?.length" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Street Address</th>
                     <th scope="col" class="text-nowrap">Postal Code</th>
-                    <th scope="col" class="text-end">Actions</th>
+                    <th scope="col">Island</th>
+                    <th scope="col" class="text-center" width="1">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,12 +52,20 @@ onMounted(() => {
                     <td>{{ address.id }}</td>
                     <td>{{ address.street_address }}</td>
                     <td>{{ address.postal_code }}</td>
-                    <td class="text-end">
-                        <button class="btn btn-sm btn-outline-secondary"
-                            @click="$router.push({ name: 'AddressDetails', params: { id: address.id } })">View</button>
+                    <td>{{ address.island.atoll }} {{ address.island.name }}</td>
+                    <td width="1">
+                        <div class="btn-group me-2">
+                            <button @click="$router.push({ name: 'AddressDetails', params: { id: address.id } })"
+                                class="btn btn-sm btn-outline-secondary">View</button>
+                            <button @click="$router.push({ name: 'AddressEdit', params: { id: address.id } })"
+                                class="btn btn-sm btn-outline-secondary">Edit</button>
+                            <button class="btn btn-sm btn-outline-secondary">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <div v-if="addresses?.length === 0">No addresses in the DB</div>
     </div>
 </template>

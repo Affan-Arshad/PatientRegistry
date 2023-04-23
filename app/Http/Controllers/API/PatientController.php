@@ -14,7 +14,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return Patient::all();
+        return Patient::with('address.island')->get();
     }
 
     /**
@@ -31,7 +31,7 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $address = Address::where('island_id', $request->island_id)->where('street_address', $request->street_address)->where('postal_code', $request->postal_code)->first();
-        if($address == null) {
+        if ($address == null) {
             $address = Address::create($request->all());
         }
         return Patient::create([...$request->all(), 'address_id' => $address->id]);
@@ -59,7 +59,7 @@ class PatientController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $address = Address::where('island_id', $request->island_id)->where('street_address', $request->street_address)->where('postal_code', $request->postal_code)->first();
-        if($address == null) {
+        if ($address == null) {
             $address = Address::create($request->all());
         }
         return $patient->update([...$request->all(), 'address_id' => $address->id]);
