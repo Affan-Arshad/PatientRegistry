@@ -21,7 +21,6 @@ class AddressController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -30,7 +29,7 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         $address = Address::where('island_id', $request->island_id)->where('street_address', $request->street_address)->where('postal_code', $request->postal_code)->first();
-        if($address == null) {
+        if ($address == null) {
             $address = Address::create($request->all());
         }
         return $address;
@@ -41,7 +40,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        return $address;
+        return $address->load('island');
     }
 
     /**

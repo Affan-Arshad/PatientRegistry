@@ -42,7 +42,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        return $patient;
+        return $patient->load('address.island');
     }
 
     /**
