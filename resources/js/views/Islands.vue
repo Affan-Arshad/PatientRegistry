@@ -5,20 +5,17 @@ import { ref, onMounted } from 'vue'
 const islands = ref([])
 const error = ref(null)
 
-onMounted(
-    async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/islands`)
-
-            if (!response.ok) throw Error('Something went wrong')
-
-            islands.value = await response.json()
-
-        } catch (err) {
+onMounted(() => {
+    axios.get(`${API_BASE_URL}/islands`)
+        .then(response => {
+            if (response.status !== 200) throw Error('Something went wrong')
+            islands.value = response.data
+        })
+        .catch(err => {
             error.value = err.message
-        }
-    }
-)
+        })
+})
+
 </script>
 
 <template>
@@ -39,7 +36,7 @@ onMounted(
 
         <p v-if="!islands.length && !error">Loading...</p>
 
-        <table v-if="islands.length" class="table table-striped table-sm">
+        <table v-if="islands.length" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>

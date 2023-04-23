@@ -5,20 +5,16 @@ import { ref, onMounted } from 'vue'
 const patients = ref([])
 const error = ref(null)
 
-onMounted(
-    async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/patients`)
-
-            if (!response.ok) throw Error('Something went wrong')
-
-            patients.value = await response.json()
-
-        } catch (err) {
+onMounted(() => {
+    axios.get(`${API_BASE_URL}/patients`)
+        .then(response => {
+            if (response.status !== 200) throw Error('Something went wrong')
+            patients.value = response.data
+        })
+        .catch(err => {
             error.value = err.message
-        }
-    }
-)
+        })
+})
 </script>
 
 <template>
@@ -28,7 +24,7 @@ onMounted(
             <h1 class="h2">Patients</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
+                    <button @click="$router.push({name: 'PatientCreate'})" type="button" class="btn btn-sm btn-outline-secondary">Add</button>
                 </div>
             </div>
         </div>
@@ -39,23 +35,23 @@ onMounted(
 
         <p v-if="!patients.length && !error">Loading...</p>
 
-        <table v-if="patients.length" class="table table-striped table-sm">
+        <table v-if="patients.length" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">DOB</th>
                     <th scope="col">National ID</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="patient in patients">
+                <tr v-for="patient in patients" class="hover:bg-red">
                     <td>{{ patient.id }}</td>
                     <td>{{ patient.name }}</td>
                     <td>{{ patient.dob }}</td>
                     <td>{{ patient.national_id }}</td>
-                    <td>
+                    <td class="text-end">
                         <button class="btn btn-sm btn-outline-secondary"
                             @click="$router.push({ name: 'PatientDetails', params: { id: patient.id } })">View</button>
                     </td>

@@ -11,20 +11,16 @@ const { id } = toRefs(props)
 const patient = ref(null)
 const error = ref(null)
 
-onMounted(
-    async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/patients/${id.value}`)
-
-            if (!response.ok) throw Error('Something went wrong')
-
-            patient.value = await response.json()
-
-        } catch (err) {
+onMounted(() => {
+    axios.get(`${API_BASE_URL}/patients/${id.value}`)
+        .then(response => {
+            if (response.status !== 200) throw Error('Something went wrong')
+            patient.value = response.data
+        })
+        .catch(err => {
             error.value = err.message
-        }
-    }
-)
+        })
+})
 
 </script>
 

@@ -1,24 +1,21 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import {API_BASE_URL} from '@/config'
+import { API_BASE_URL } from '@/config'
 
 const addresses = ref([])
 const error = ref(null)
 
-onMounted(
-    async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/addresses`)
-
-            if (!response.ok) throw Error('Something went wrong')
-
-            addresses.value = await response.json()
-
-        } catch (err) {
+onMounted(() => {
+    axios.get(`${API_BASE_URL}/addresses`)
+        .then(response => {
+            if (response.status !== 200) throw Error('Something went wrong')
+            addresses.value = response.data
+        })
+        .catch(err => {
             error.value = err.message
-        }
-    }
-)
+        })
+})
+
 </script>
 
 <template>
@@ -28,7 +25,8 @@ onMounted(
             <h1 class="h2">Addresses</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
+                    <button @click="$router.push({ name: 'AddressCreate' })" type="button"
+                        class="btn btn-sm btn-outline-secondary">Add</button>
                 </div>
             </div>
         </div>
@@ -39,13 +37,13 @@ onMounted(
 
         <p v-if="!addresses.length && !error">Loading...</p>
 
-        <table v-if="addresses.length" class="table table-striped table-sm">
+        <table v-if="addresses.length" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Street Address</th>
                     <th scope="col" class="text-nowrap">Postal Code</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +51,7 @@ onMounted(
                     <td>{{ address.id }}</td>
                     <td>{{ address.street_address }}</td>
                     <td>{{ address.postal_code }}</td>
-                    <td>
+                    <td class="text-end">
                         <button class="btn btn-sm btn-outline-secondary"
                             @click="$router.push({ name: 'AddressDetails', params: { id: address.id } })">View</button>
                     </td>

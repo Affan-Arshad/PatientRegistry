@@ -11,20 +11,16 @@ const { id } = toRefs(props)
 const address = ref(null)
 const error = ref(null)
 
-onMounted(
-    async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/addresses/${id.value}`)
-
-            if (!response.ok) throw Error('Something went wrong')
-
-            address.value = await response.json()
-
-        } catch (err) {
+onMounted(() => {
+    axios.get(`${API_BASE_URL}/addresses/${id.value}`)
+        .then(response => {
+            if (response.status !== 200) throw Error('Something went wrong')
+            address.value = response.data
+        })
+        .catch(err => {
             error.value = err.message
-        }
-    }
-)
+        })
+})
 
 </script>
 

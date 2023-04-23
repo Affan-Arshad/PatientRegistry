@@ -3,8 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Patients from '../views/patients/Patients.vue';
 import PatientDetails from '../views/patients/PatientDetails.vue';
+import PatientCreate from '../views/patients/PatientCreate.vue';
 import Addresses from '../views/addresses/Addresses.vue';
 import AddressDetails from '../views/addresses/AddressDetails.vue';
+import AddressCreate from '../views/addresses/AddressCreate.vue';
 import Islands from '../views/Islands.vue';
 
 const routes = [
@@ -19,6 +21,11 @@ const routes = [
         component: Patients
     },
     {
+        path: '/patients/create',
+        name: 'PatientCreate',
+        component: PatientCreate
+    },
+    {
         path: '/patients/:id',
         name: 'PatientDetails',
         component: PatientDetails,
@@ -28,6 +35,11 @@ const routes = [
         path: '/addresses',
         name: 'Addresses',
         component: Addresses
+    },
+    {
+        path: '/addresses/create',
+        name: 'AddressCreate',
+        component: AddressCreate
     },
     {
         path: '/addresses/:id',
