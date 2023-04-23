@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\AddressApiController;
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\API\IslandApiController;
-use App\Http\Controllers\API\PatientApiController;
-use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
 /*
