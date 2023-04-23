@@ -13,7 +13,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return Address::with('island')->get();
+        return Address::with('island')->with('patients')->get();
     }
 
     /**

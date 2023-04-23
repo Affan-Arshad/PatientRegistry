@@ -57,6 +57,7 @@ onMounted(() => {
                     <th scope="col">Street Address</th>
                     <th scope="col" class="text-nowrap">Postal Code</th>
                     <th scope="col">Island</th>
+                    <th scope="col">Patients</th>
                     <th scope="col" class="text-center" width="1">Actions</th>
                 </tr>
             </thead>
@@ -66,6 +67,7 @@ onMounted(() => {
                     <td>{{ address.street_address }}</td>
                     <td>{{ address.postal_code }}</td>
                     <td>{{ address.island.atoll }} {{ address.island.name }}</td>
+                    <td>{{ address.patients.length }}</td>
                     <td width="1">
                         <div class="btn-group me-2">
                             <button @click="$router.push({ name: 'AddressDetails', params: { id: address.id } })"
